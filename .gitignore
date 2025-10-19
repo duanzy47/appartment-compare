@@ -1,0 +1,6 @@
+local/
+.env
+state-seloger.json
+output.json
+output.csv
+errors.log

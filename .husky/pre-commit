@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+CHANGED_FILES=$(git diff --cached --name-only || true)
+if [[ -z "$CHANGED_FILES" ]]; then
+  exit 0
+fi
+
+if echo "$CHANGED_FILES" | grep -Eq '^(local/|state-seloger\.json|output\.json|output\.csv|errors\.log)'; then
+  echo "pre-commit: Refusing to commit artifacts from local scraping (local/, state-seloger.json, output.*, errors.log)." >&2
+  exit 1
+fi
+
+exit 0
