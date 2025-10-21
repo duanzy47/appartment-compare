@@ -7,6 +7,10 @@
 
 ## User Scenarios & Testing *(mandatory)*
 
+> Constitution Alignment: Define the automated tests that will initially fail for each story before any
+> implementation begins. Call out any existing tests that must be amended alongside the change and capture
+> mitigation for flaky test risk.
+
 <!--
   IMPORTANT: User stories should be PRIORITIZED as user journeys ordered by importance.
   Each user story/journey must be INDEPENDENTLY TESTABLE - meaning if you implement just ONE of them,
@@ -26,7 +30,7 @@
 
 **Why this priority**: [Explain the value and why it has this priority level]
 
-**Independent Test**: [Describe how this can be tested independently - e.g., "Can be fully tested by [specific action] and delivers [specific value]"]
+**Automated Test (write first)**: [Describe the automated test(s) that will fail before implementation and how they validate the story]
 
 **Acceptance Scenarios**:
 
@@ -41,7 +45,7 @@
 
 **Why this priority**: [Explain the value and why it has this priority level]
 
-**Independent Test**: [Describe how this can be tested independently]
+**Automated Test (write first)**: [Describe the automated test(s) that will fail before implementation]
 
 **Acceptance Scenarios**:
 
@@ -55,7 +59,7 @@
 
 **Why this priority**: [Explain the value and why it has this priority level]
 
-**Independent Test**: [Describe how this can be tested independently]
+**Automated Test (write first)**: [Describe the automated test(s) that will fail before implementation]
 
 **Acceptance Scenarios**:
 
@@ -90,6 +94,9 @@
 - **FR-004**: System MUST [data requirement, e.g., "persist user preferences"]
 - **FR-005**: System MUST [behavior, e.g., "log all security events"]
 
+*Constitution: For every proposed dependency, justify why the feature cannot ship without it; otherwise
+record "No new dependencies."*
+
 *Example of marking unclear requirements:*
 
 - **FR-006**: System MUST authenticate users via [NEEDS CLARIFICATION: auth method not specified - email/password, SSO, OAuth?]
@@ -113,4 +120,3 @@
 - **SC-002**: [Measurable metric, e.g., "System handles 1000 concurrent users without degradation"]
 - **SC-003**: [User satisfaction metric, e.g., "90% of users successfully complete primary task on first attempt"]
 - **SC-004**: [Business metric, e.g., "Reduce support tickets related to [X] by 50%"]
-

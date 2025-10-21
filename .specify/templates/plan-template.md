@@ -31,7 +31,10 @@
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-[Gates determined based on constitution file]
+- [ ] Identify the failing automated tests that will be written before any implementation work begins.
+- [ ] Confirm every planned behavior change includes corresponding test updates in the initial tasks.
+- [ ] Justify each new dependency or shared component; if none are required, explicitly state "No new dependencies."
+- [ ] Document how generated artifacts stay in gitignored locations (e.g., `local/`) and note any `.gitignore` updates needed.
 
 ## Project Structure
 
@@ -102,4 +105,3 @@ directories captured above]
 |-----------|------------|-------------------------------------|
 | [e.g., 4th project] | [current need] | [why 3 projects insufficient] |
 | [e.g., Repository pattern] | [specific problem] | [why direct DB access insufficient] |
-
