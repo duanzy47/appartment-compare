@@ -7,10 +7,6 @@
 
 ## User Scenarios & Testing *(mandatory)*
 
-> Constitution Alignment: Define the automated tests that will initially fail for each story before any
-> implementation begins. Call out any existing tests that must be amended alongside the change and capture
-> mitigation for flaky test risk.
-
 <!--
   IMPORTANT: User stories should be PRIORITIZED as user journeys ordered by importance.
   Each user story/journey must be INDEPENDENTLY TESTABLE - meaning if you implement just ONE of them,
@@ -30,7 +26,7 @@
 
 **Why this priority**: [Explain the value and why it has this priority level]
 
-**Automated Test (write first)**: [Describe the automated test(s) that will fail before implementation and how they validate the story]
+**Independent Test**: [Describe how this can be tested independently - e.g., "Can be fully tested by [specific action] and delivers [specific value]"]
 
 **Acceptance Scenarios**:
 
@@ -45,7 +41,7 @@
 
 **Why this priority**: [Explain the value and why it has this priority level]
 
-**Automated Test (write first)**: [Describe the automated test(s) that will fail before implementation]
+**Independent Test**: [Describe how this can be tested independently]
 
 **Acceptance Scenarios**:
 
@@ -59,7 +55,7 @@
 
 **Why this priority**: [Explain the value and why it has this priority level]
 
-**Automated Test (write first)**: [Describe the automated test(s) that will fail before implementation]
+**Independent Test**: [Describe how this can be tested independently]
 
 **Acceptance Scenarios**:
 
@@ -93,9 +89,6 @@
 - **FR-003**: Users MUST be able to [key interaction, e.g., "reset their password"]
 - **FR-004**: System MUST [data requirement, e.g., "persist user preferences"]
 - **FR-005**: System MUST [behavior, e.g., "log all security events"]
-
-*Constitution: For every proposed dependency, justify why the feature cannot ship without it; otherwise
-record "No new dependencies."*
 
 *Example of marking unclear requirements:*
 

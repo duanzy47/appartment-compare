@@ -1,0 +1,363 @@
+[2m2025-10-21T21:58:34.323902Z[0m [31mERROR[0m Failed to read auth.json: No such file or directory (os error 2)
+[2m2025-10-21T21:59:12.697525Z[0m [32m INFO[0m legacy feature toggle detected; prefer `[features].plan_tool` [3malias[0m[2m=[0minclude_plan_tool [3mcanonical[0m[2m=[0m"plan_tool"
+[2m2025-10-21T21:59:12.697551Z[0m [32m INFO[0m cwd not set, using current dir
+[2m2025-10-21T21:59:53.901263Z[0m [32m INFO[0m ERR: Filename too long (os error 36)
+[2m2025-10-21T22:00:01.420535Z[0m [32m INFO[0m ToolCall: shell {"command":["bash","-lc","ls"],"workdir":"/home/zduan/github/appartement-compare"}
+[2m2025-10-21T22:00:03.010672Z[0m [32m INFO[0m ToolCall: shell {"command":["bash","-lc","ls .specify"],"workdir":"/home/zduan/github/appartement-compare"}
+[2m2025-10-21T22:00:04.733799Z[0m [32m INFO[0m ToolCall: shell {"command":["bash","-lc","cat .specify/memory/constitution.md"],"workdir":"/home/zduan/github/appartement-compare"}
+[2m2025-10-21T22:00:09.193477Z[0m [32m INFO[0m ToolCall: shell {"command":["bash","-lc","cat README.md"],"workdir":"/home/zduan/github/appartement-compare"}
+[2m2025-10-21T22:00:12.359231Z[0m [32m INFO[0m ToolCall: shell {"command":["bash","-lc","cat .specify/templates/plan-template.md"],"workdir":"/home/zduan/github/appartement-compare"}
+[2m2025-10-21T22:00:14.577977Z[0m [32m INFO[0m ToolCall: shell {"command":["bash","-lc","cat .specify/templates/spec-template.md"],"workdir":"/home/zduan/github/appartement-compare"}
+[2m2025-10-21T22:00:16.615880Z[0m [32m INFO[0m ToolCall: shell {"command":["bash","-lc","cat .specify/templates/tasks-template.md"],"workdir":"/home/zduan/github/appartement-compare"}
+[2m2025-10-21T22:00:19.801306Z[0m [32m INFO[0m ToolCall: shell {"command":["bash","-lc","ls .specify/templates/commands"],"workdir":"/home/zduan/github/appartement-compare"}
+[2m2025-10-21T22:00:21.596309Z[0m [32m INFO[0m ToolCall: shell {"command":["bash","-lc","find .specify -maxdepth 2 -type d"],"workdir":"/home/zduan/github/appartement-compare"}
+[2m2025-10-21T22:00:25.936340Z[0m [32m INFO[0m ToolCall: update_plan {"plan":[{"status":"in_progress","step":"Inspect constitution template and catalog placeholders/needed data"},{"status":"pending","step":"Derive concrete values from user input and repository context, decide version bump"},{"status":"pending","step":"Update constitution content with resolved values and sync impact report"},{"status":"pending","step":"Verify alignment of related templates/docs and update if needed"}]}
+[2m2025-10-21T22:00:29.639837Z[0m [32m INFO[0m ToolCall: update_plan {"plan":[{"status":"completed","step":"Inspect constitution template and catalog placeholders/needed data"},{"status":"in_progress","step":"Derive concrete values from user input and repository context, decide version bump"},{"status":"pending","step":"Update constitution content with resolved values and sync impact report"},{"status":"pending","step":"Verify alignment of related templates/docs and update if needed"}]}
+[2m2025-10-21T22:00:38.602307Z[0m [32m INFO[0m ToolCall: shell {"command":["bash","-lc","ls .specify/memory"],"workdir":"/home/zduan/github/appartement-compare"}
+[2m2025-10-21T22:00:47.772846Z[0m [32m INFO[0m ToolCall: shell {"command":["bash","-lc","date +%F"],"workdir":"/home/zduan/github/appartement-compare"}
+[2m2025-10-21T22:01:06.775259Z[0m [32m INFO[0m ToolCall: update_plan {"plan":[{"status":"completed","step":"Inspect constitution template and catalog placeholders/needed data"},{"status":"completed","step":"Derive concrete values from user input and repository context, decide version bump"},{"status":"in_progress","step":"Update constitution content with resolved values and sync impact report"},{"status":"pending","step":"Verify alignment of related templates/docs and update if needed"}]}
+[2m2025-10-21T22:01:25.371318Z[0m [32m INFO[0m ToolCall: apply_patch *** Begin Patch
+*** Update File: .specify/memory/constitution.md
+*** End Patch
+[2m2025-10-21T22:01:42.422436Z[0m [32m INFO[0m ToolCall: apply_patch *** Begin Patch
+*** Update File: .specify/memory/constitution.md
+@@
+-# [PROJECT_NAME] Constitution
+-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+-
+-## Core Principles
+-
+-### [PRINCIPLE_1_NAME]
+-<!-- Example: I. Library-First -->
+-[PRINCIPLE_1_DESCRIPTION]
+-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+-
+-### [PRINCIPLE_2_NAME]
+-<!-- Example: II. CLI Interface -->
+-[PRINCIPLE_2_DESCRIPTION]
+-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+-
+-### [PRINCIPLE_3_NAME]
+-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
+-[PRINCIPLE_3_DESCRIPTION]
+-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+-
+-### [PRINCIPLE_4_NAME]
+-<!-- Example: IV. Integration Testing -->
+-[PRINCIPLE_4_DESCRIPTION]
+-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+-
+-### [PRINCIPLE_5_NAME]
+-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
+-[PRINCIPLE_5_DESCRIPTION]
+-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+-
+-## [SECTION_2_NAME]
+-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+-
+-[SECTION_2_CONTENT]
+-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+-
+-## [SECTION_3_NAME]
+-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+-
+-[SECTION_3_CONTENT]
+-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+-
+-## Governance
+-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
+-
+-[GOVERNANCE_RULES]
+-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+-
+-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
+-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
++<!--
++Sync Impact Report
++Version change: 0.0.0 → 1.0.0
++Modified principles:
++- N/A → Test-Driven & Green-to-Commit
++- N/A → Minimalist Implementation
++Added sections:
++- State & Artifact Discipline
++- Delivery Workflow
++Removed sections:
++- Principle III placeholder
++- Principle IV placeholder
++- Principle V placeholder
++Templates requiring updates:
++- ✅ .specify/templates/plan-template.md
++- ✅ .specify/templates/tasks-template.md
++Follow-up TODOs: None
++-->
++# Seloger Favorites Toolkit Constitution
++
++## Core Principles
++
++### Test-Driven & Green-to-Commit
++
++- MUST author failing automated tests before writing production code for any change.  
++- MUST block merges until the full local test suite and continuous integration both pass.  
++- MUST treat flaky or intermittently failing tests as hard failures and stabilize them before merge approval.  
++Rationale: A disciplined red-green-refactor loop keeps the Playwright automation reliable and protects the
++data export flows from regressions.
++
++### Minimalist Implementation
++
++- MUST deliver the smallest slice of functionality that satisfies the current specification.  
++- MUST avoid adding dependencies without explicit justification tied to an active requirement.  
++- MUST delete dead code, unused scripts, and obsolete configuration as soon as they lose purpose.  
++Rationale: The toolkit stays maintainable when every module earns its keep and the code surface remains small.
++
++## State & Artifact Discipline
++
++- Session state, scraped outputs, and other runtime artifacts MUST remain in `local/` or other gitignored
++paths; repository history MAY NOT include sensitive or transient data.  
++- Developers MUST document any new generated artifact paths alongside `.gitignore` updates before merging.  
++- Secrets, tokens, and third-party credentials MUST NOT leave the developer's machine; reference examples
++belong in `.env.example` only.
++
++## Delivery Workflow
++
++- Pull requests MUST demonstrate the failing test first, then the passing implementation commit(s), unless
++a single commit preserves a clear red-green narrative.  
++- Behavior changes MUST update or add tests that capture the new contract within the same pull request.  
++- Code review MUST confirm that newly added code paths have direct test coverage and that complexity is
++justified under the Minimalist Implementation principle.
++
++## Governance
++
++- Amendments require consensus from active maintainers via pull request referencing the proposed version
++and rationale; merges without consensus are invalid.  
++- Versioning follows semantic rules: MAJOR for principle or governance reversals, MINOR for new principles
++or sections, PATCH for clarifications.  
++- Compliance reviews occur at least once per quarter to audit adherence to the principles, with findings
++documented in the repository.
++
++**Version**: 1.0.0 | **Ratified**: 2025-10-22 | **Last Amended**: 2025-10-22
+*** End Patch
+[2m2025-10-21T22:01:44.714145Z[0m [32m INFO[0m ToolCall: shell {"command":["bash","-lc","cat .specify/memory/constitution.md"],"workdir":"/home/zduan/github/appartement-compare"}
+[2m2025-10-21T22:02:05.435790Z[0m [32m INFO[0m ToolCall: apply_patch *** Begin Patch
+*** Update File: .specify/memory/constitution.md
+@@
+-### Test-Driven & Green-to-Commit
+-
+-- MUST author failing automated tests before writing production code for any change.  
+-- MUST block merges until the full local test suite and continuous integration both pass.  
+-- MUST treat flaky or intermittently failing tests as hard failures and stabilize them before merge approval.  
+-Rationale: A disciplined red-green-refactor loop keeps the Playwright automation reliable and protects the
+-data export flows from regressions.
++### Test-Driven & Green-to-Commit
++
++- MUST author failing automated tests before writing production code for any change.
++- MUST block merges until the full local test suite and continuous integration both pass.
++- MUST treat flaky or intermittently failing tests as hard failures and stabilize them before merge approval.
++Rationale: A disciplined red-green-refactor loop keeps the Playwright automation reliable and protects the
++data export flows from regressions.
+@@
+-### Minimalist Implementation
+-
+-- MUST deliver the smallest slice of functionality that satisfies the current specification.  
+-- MUST avoid adding dependencies without explicit justification tied to an active requirement.  
+-- MUST delete dead code, unused scripts, and obsolete configuration as soon as they lose purpose.  
+-Rationale: The toolkit stays maintainable when every module earns its keep and the code surface remains small.
++### Minimalist Implementation
++
++- MUST deliver the smallest slice of functionality that satisfies the current specification.
++- MUST avoid adding dependencies without explicit justification tied to an active requirement.
++- MUST delete dead code, unused scripts, and obsolete configuration as soon as they lose purpose.
++Rationale: The toolkit stays maintainable when every module earns its keep and the code surface remains small.
+@@
+-## State & Artifact Discipline
+-
+-- Session state, scraped outputs, and other runtime artifacts MUST remain in `local/` or other gitignored
+-paths; repository history MAY NOT include sensitive or transient data.  
+-- Developers MUST document any new generated artifact paths alongside `.gitignore` updates before merging.  
+-- Secrets, tokens, and third-party credentials MUST NOT leave the developer's machine; reference examples
+-belong in `.env.example` only.
++## State & Artifact Discipline
++
++- Session state, scraped outputs, and other runtime artifacts MUST remain in `local/` or other gitignored
++  paths; repository history MAY NOT include sensitive or transient data.
++- Developers MUST document any new generated artifact paths alongside `.gitignore` updates before merging.
++- Secrets, tokens, and third-party credentials MUST NOT leave the developer's machine; reference examples
++  belong in `.env.example` only.
+@@
+-## Delivery Workflow
+-
+-- Pull requests MUST demonstrate the failing test first, then the passing implementation commit(s), unless
+-a single commit preserves a clear red-green narrative.  
+-- Behavior changes MUST update or add tests that capture the new contract within the same pull request.  
+-- Code review MUST confirm that newly added code paths have direct test coverage and that complexity is
+-justified under the Minimalist Implementation principle.
++## Delivery Workflow
++
++- Pull requests MUST demonstrate the failing test first, then the passing implementation commit(s), unless
++  a single commit preserves a clear red-green narrative.
++- Behavior changes MUST update or add tests that capture the new contract within the same pull request.
++- Code review MUST confirm that newly added code paths have direct test coverage and that complexity is
++  justified under the Minimalist Implementation principle.
+@@
+-## Governance
+-
+-- Amendments require consensus from active maintainers via pull request referencing the proposed version
+-and rationale; merges without consensus are invalid.  
+-- Versioning follows semantic rules: MAJOR for principle or governance reversals, MINOR for new principles
+-or sections, PATCH for clarifications.  
+-- Compliance reviews occur at least once per quarter to audit adherence to the principles, with findings
+-documented in the repository.
++## Governance
++
++- Amendments require consensus from active maintainers via pull request referencing the proposed version
++  and rationale; merges without consensus are invalid.
++- Versioning follows semantic rules: MAJOR for principle or governance reversals, MINOR for new principles
++  or sections, PATCH for clarifications.
++- Compliance reviews occur at least once per quarter to audit adherence to the principles, with findings
++  documented in the repository.
+*** End Patch
+[2m2025-10-21T22:02:09.254682Z[0m [32m INFO[0m ToolCall: apply_patch *** Begin Patch
+*** Update File: .specify/memory/constitution.md
+@@
+-Rationale: A disciplined red-green-refactor loop keeps the Playwright automation reliable and protects the
+-data export flows from regressions.
++Rationale: A disciplined red-green-refactor loop keeps the Playwright automation reliable and protects the
++  data export flows from regressions.
+@@
+-Rationale: The toolkit stays maintainable when every module earns its keep and the code surface remains small.
++Rationale: The toolkit stays maintainable when every module earns its keep and the code surface remains small.
+*** End Patch
+[2m2025-10-21T22:02:12.480466Z[0m [32m INFO[0m ToolCall: apply_patch *** Begin Patch
+*** Update File: .specify/memory/constitution.md
+@@
+-Rationale: The toolkit stays maintainable when every module earns its keep and the code surface remains small.
++Rationale: The toolkit stays maintainable when every module earns its keep and the code surface remains
++  small.
+*** End Patch
+[2m2025-10-21T22:02:15.018929Z[0m [32m INFO[0m ToolCall: update_plan {"plan":[{"status":"completed","step":"Inspect constitution template and catalog placeholders/needed data"},{"status":"completed","step":"Derive concrete values from user input and repository context, decide version bump"},{"status":"completed","step":"Update constitution content with resolved values and sync impact report"},{"status":"in_progress","step":"Verify alignment of related templates/docs and update if needed"}]}
+[2m2025-10-21T22:02:29.125334Z[0m [32m INFO[0m ToolCall: apply_patch *** Begin Patch
+*** Update File: .specify/templates/plan-template.md
+@@
+ ## Constitution Check
+ 
+ *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
+ 
+-[Gates determined based on constitution file]
++- [ ] Identify the failing automated tests that will be written before any implementation work begins.
++- [ ] Confirm every planned behavior change includes corresponding test updates in the initial tasks.
++- [ ] Justify each new dependency or shared component; if none are required, explicitly state "No new dependencies."
++- [ ] Document how generated artifacts stay in gitignored locations (e.g., `local/`) and note any `.gitignore` updates needed.
+*** End Patch
+[2m2025-10-21T22:02:49.276402Z[0m [32m INFO[0m ToolCall: apply_patch *** Begin Patch
+*** Update File: .specify/templates/spec-template.md
+@@
+ ## User Scenarios & Testing *(mandatory)*
+ 
++> Constitution Alignment: Define the automated tests that will initially fail for each story before any
++> implementation begins. Call out any existing tests that must be amended alongside the change and capture
++> mitigation for flaky test risk.
++
+ <!--
+   IMPORTANT: User stories should be PRIORITIZED as user journeys ordered by importance.
+   Each user story/journey must be INDEPENDENTLY TESTABLE - meaning if you implement just ONE of them,
+   you should still have a viable MVP (Minimum Viable Product) that delivers value.
+@@
+ [Describe this user journey in plain language]
+ 
+ **Why this priority**: [Explain the value and why it has this priority level]
+ 
+-**Independent Test**: [Describe how this can be tested independently - e.g., "Can be fully tested by [specific action] and delivers [specific value]"]
++**Automated Test (write first)**: [Describe the automated test(s) that will fail before implementation and how they validate the story]
+ 
+ **Acceptance Scenarios**:
+@@
+ [Describe this user journey in plain language]
+ 
+ **Why this priority**: [Explain the value and why it has this priority level]
+ 
+-**Independent Test**: [Describe how this can be tested independently]
++**Automated Test (write first)**: [Describe the automated test(s) that will fail before implementation]
+@@
+ [Describe this user journey in plain language]
+ 
+ **Why this priority**: [Explain the value and why it has this priority level]
+ 
+-**Independent Test**: [Describe how this can be tested independently]
++**Automated Test (write first)**: [Describe the automated test(s) that will fail before implementation]
+@@
+ - **FR-001**: System MUST [specific capability, e.g., "allow users to create accounts"]
+ - **FR-002**: System MUST [specific capability, e.g., "validate email addresses"]  
+ - **FR-003**: Users MUST be able to [key interaction, e.g., "reset their password"]
+ - **FR-004**: System MUST [data requirement, e.g., "persist user preferences"]
+ - **FR-005**: System MUST [behavior, e.g., "log all security events"]
++- **FR-006**: [Justify any new dependency that the feature cannot avoid; otherwise note "No new dependencies."]
+ 
+ *Example of marking unclear requirements:*
+*** End Patch
+[2m2025-10-21T22:02:59.825273Z[0m [32m INFO[0m ToolCall: apply_patch *** Begin Patch
+*** Update File: .specify/templates/spec-template.md
+@@
+-- **FR-005**: System MUST [behavior, e.g., "log all security events"]
+-- **FR-006**: [Justify any new dependency that the feature cannot avoid; otherwise note "No new dependencies."]
++- **FR-005**: System MUST [behavior, e.g., "log all security events"]
++
++*Constitution: For every proposed dependency, justify why the feature cannot ship without it; otherwise
++record "No new dependencies."*
+*** End Patch
+[2m2025-10-21T22:03:04.178517Z[0m [32m INFO[0m ToolCall: apply_patch *** Begin Patch
+*** Update File: .specify/templates/spec-template.md
+@@
+-*Constitution: For every proposed dependency, justify why the feature cannot ship without it; otherwise
+-record "No new dependencies."*
++*Constitution: For every proposed dependency, justify why the feature cannot ship without it; otherwise
++record "No new dependencies."*
+*** End Patch
+[2m2025-10-21T22:03:13.977880Z[0m [32m INFO[0m ToolCall: apply_patch *** Begin Patch
+*** Update File: .specify/templates/tasks-template.md
+@@
+ **Input**: Design documents from `/specs/[###-feature-name]/`
+ **Prerequisites**: plan.md (required), spec.md (required for user stories), research.md, data-model.md, contracts/
+ 
+-**Tests**: The examples below include test tasks. Tests are OPTIONAL - only include them if explicitly requested in the feature specification.
++**Tests**: Every functional change MUST start with automated tests. Record the failing test tasks before
++implementation tasks, and stabilize any flaky suites prior to merge.
+@@
+-### Tests for User Story 1 (OPTIONAL - only if tests requested) ⚠️
+-
+-**NOTE: Write these tests FIRST, ensure they FAIL before implementation**
++### Tests for User Story 1 (write first) ⚠️
++
++**NOTE: Author these tests before implementation and verify they fail**
+@@
+-### Tests for User Story 2 (OPTIONAL - only if tests requested) ⚠️
++### Tests for User Story 2 (write first) ⚠️
+@@
+-### Tests for User Story 3 (OPTIONAL - only if tests requested) ⚠️
++### Tests for User Story 3 (write first) ⚠️
+@@
+-- Tests (if included) MUST be written and FAIL before implementation
++- Tests MUST be written and observed failing before implementation
+*** End Patch
+[2m2025-10-21T22:03:21.105923Z[0m [32m INFO[0m ToolCall: update_plan {"plan":[{"status":"completed","step":"Inspect constitution template and catalog placeholders/needed data"},{"status":"completed","step":"Derive concrete values from user input and repository context, decide version bump"},{"status":"completed","step":"Update constitution content with resolved values and sync impact report"},{"status":"completed","step":"Verify alignment of related templates/docs and update if needed"}]}
+[2m2025-10-21T22:03:24.316636Z[0m [32m INFO[0m ToolCall: shell {"command":["bash","-lc","git status -sb"],"workdir":"/home/zduan/github/appartement-compare"}
+[2m2025-10-21T22:03:35.315893Z[0m [32m INFO[0m ToolCall: shell {"command":["bash","-lc","nl -ba .specify/memory/constitution.md | sed -n '1,160p'"],"workdir":"/home/zduan/github/appartement-compare"}
+[2m2025-10-21T22:03:38.113731Z[0m [32m INFO[0m ToolCall: shell {"command":["bash","-lc","nl -ba .specify/templates/plan-template.md | sed -n '1,200p'"],"workdir":"/home/zduan/github/appartement-compare"}
+[2m2025-10-21T22:03:41.085620Z[0m [32m INFO[0m ToolCall: shell {"command":["bash","-lc","nl -ba .specify/templates/spec-template.md | sed -n '1,220p'"],"workdir":"/home/zduan/github/appartement-compare"}
+[2m2025-10-21T22:03:43.144017Z[0m [32m INFO[0m ToolCall: shell {"command":["bash","-lc","nl -ba .specify/templates/tasks-template.md | sed -n '1,240p'"],"workdir":"/home/zduan/github/appartement-compare"}
+[2m2025-10-21T22:03:54.919392Z[0m [32m INFO[0m ToolCall: apply_patch *** Begin Patch
+*** Update File: .specify/templates/tasks-template.md
+@@
+-- [ ] TXXX [P] Additional unit tests (if requested) in tests/unit/
++- [ ] TXXX [P] Additional unit tests (as new edge cases surface) in tests/unit/
+@@
+-```bash
+-# Launch all tests for User Story 1 together (if tests requested):
++```bash
++# Launch all tests for User Story 1 together:
+ Task: "Contract test for [endpoint] in tests/contract/test_[name].py"
+ Task: "Integration test for [user journey] in tests/integration/test_[name].py"
+*** End Patch
+[2m2025-10-21T22:05:15.199312Z[0m [32m INFO[0m ToolCall: shell {"command":["bash","-lc","git status -sb"],"workdir":"/home/zduan/github/appartement-compare"}
+[2m2025-10-21T22:05:17.748602Z[0m [32m INFO[0m ToolCall: shell {"command":["bash","-lc","git add .specify/memory/constitution.md .specify/templates/plan-template.md .specify/templates/spec-template.md .specify/templates/tasks-template.md"],"workdir":"/home/zduan/github/appartement-compare"}
+[2m2025-10-21T22:05:20.534895Z[0m [32m INFO[0m ToolCall: shell {"command":["bash","-lc","git commit -m \"docs: amend constitution to v1.0.0 (tdd+minimalism charter)\""],"workdir":"/home/zduan/github/appartement-compare"}
+[2m2025-10-21T22:06:12.751305Z[0m [32m INFO[0m Shutting down Codex instance
+[2m2025-10-29T20:41:28.250773Z[0m [32m INFO[0m interrupt received: abort current task, if any

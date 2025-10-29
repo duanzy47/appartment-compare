@@ -1,64 +1,50 @@
-<!--
-Sync Impact Report
-Version change: 0.0.0 → 1.0.0
-Modified principles:
-- N/A → Test-Driven & Green-to-Commit
-- N/A → Minimalist Implementation
-Added sections:
-- State & Artifact Discipline
-- Delivery Workflow
-Removed sections:
-- Principle III placeholder
-- Principle IV placeholder
-- Principle V placeholder
-Templates requiring updates:
-- ✅ .specify/templates/plan-template.md
-- ✅ .specify/templates/tasks-template.md
-Follow-up TODOs: None
--->
-# Seloger Favorites Toolkit Constitution
+# [PROJECT_NAME] Constitution
+<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
 
 ## Core Principles
 
-### Test-Driven & Green-to-Commit
+### [PRINCIPLE_1_NAME]
+<!-- Example: I. Library-First -->
+[PRINCIPLE_1_DESCRIPTION]
+<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
 
-- MUST author failing automated tests before writing production code for any change.
-- MUST block merges until the full local test suite and continuous integration both pass.
-- MUST treat flaky or intermittently failing tests as hard failures and stabilize them before merge approval.
-Rationale: A disciplined red-green-refactor loop keeps the Playwright automation reliable and protects the
-  data export flows from regressions.
+### [PRINCIPLE_2_NAME]
+<!-- Example: II. CLI Interface -->
+[PRINCIPLE_2_DESCRIPTION]
+<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
 
-### Minimalist Implementation
+### [PRINCIPLE_3_NAME]
+<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
+[PRINCIPLE_3_DESCRIPTION]
+<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
 
-- MUST deliver the smallest slice of functionality that satisfies the current specification.
-- MUST avoid adding dependencies without explicit justification tied to an active requirement.
-- MUST delete dead code, unused scripts, and obsolete configuration as soon as they lose purpose.
-Rationale: The toolkit stays maintainable when every module earns its keep and the code surface remains
-  small.
+### [PRINCIPLE_4_NAME]
+<!-- Example: IV. Integration Testing -->
+[PRINCIPLE_4_DESCRIPTION]
+<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
 
-## State & Artifact Discipline
+### [PRINCIPLE_5_NAME]
+<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
+[PRINCIPLE_5_DESCRIPTION]
+<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
 
-- Session state, scraped outputs, and other runtime artifacts MUST remain in `local/` or other gitignored
-  paths; repository history MAY NOT include sensitive or transient data.
-- Developers MUST document any new generated artifact paths alongside `.gitignore` updates before merging.
-- Secrets, tokens, and third-party credentials MUST NOT leave the developer's machine; reference examples
-  belong in `.env.example` only.
+## [SECTION_2_NAME]
+<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
 
-## Delivery Workflow
+[SECTION_2_CONTENT]
+<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
 
-- Pull requests MUST demonstrate the failing test first, then the passing implementation commit(s), unless
-  a single commit preserves a clear red-green narrative.
-- Behavior changes MUST update or add tests that capture the new contract within the same pull request.
-- Code review MUST confirm that newly added code paths have direct test coverage and that complexity is
-  justified under the Minimalist Implementation principle.
+## [SECTION_3_NAME]
+<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+
+[SECTION_3_CONTENT]
+<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
 
 ## Governance
+<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-- Amendments require consensus from active maintainers via pull request referencing the proposed version
-  and rationale; merges without consensus are invalid.
-- Versioning follows semantic rules: MAJOR for principle or governance reversals, MINOR for new principles
-  or sections, PATCH for clarifications.
-- Compliance reviews occur at least once per quarter to audit adherence to the principles, with findings
-  documented in the repository.
+[GOVERNANCE_RULES]
+<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
 
-**Version**: 1.0.0 | **Ratified**: 2025-10-22 | **Last Amended**: 2025-10-22
+**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
+<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
