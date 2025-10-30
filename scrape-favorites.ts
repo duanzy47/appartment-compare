@@ -1,4 +1,5 @@
 import { chromium, BrowserContext, Page, Locator, Frame } from 'playwright';
+import readline from 'node:readline';
 import fs from 'fs/promises';
 import path from 'path';
 import process from 'process';
@@ -40,6 +41,7 @@ interface CliOptions {
   urls: string[];
   outPath?: string;
   delayRange: DelayRange;
+  headed: boolean;
 }
 
 const CONCURRENCY_LIMIT = 3;
@@ -102,6 +104,7 @@ function parseArgs(argv: string[]): CliOptions {
   let outPath: string | undefined;
   let delayMin = DEFAULT_DELAY_RANGE.min;
   let delayMax = DEFAULT_DELAY_RANGE.max;
+  let headed = false;
 
   for (let i = 0; i < argv.length; i += 1) {
     const arg = argv[i];
@@ -132,6 +135,8 @@ function parseArgs(argv: string[]): CliOptions {
         throw new Error('--delay-max must be a non-negative integer');
       }
       i += 1;
+    } else if (arg === '--headed') {
+      headed = true;
     } else if (arg.startsWith('--')) {
       throw new Error(`Unknown option: ${arg}`);
     } else {
@@ -151,6 +156,7 @@ function parseArgs(argv: string[]): CliOptions {
     urls,
     outPath,
     delayRange: { min: delayMin, max: delayMax },
+    headed,
   };
 }
 
@@ -164,6 +170,77 @@ function randomDelay(range: DelayRange): number {
 
 async function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+class PauseController {
+  private paused = false;
+  private aborted = false;
+  private resumeResolve: (() => void) | null = null;
+  private resumePromise: Promise<void> | null = null;
+  private pauseStartedAt: number | null = null;
+  private activeReason: string | null = null;
+  private activeUrl: string | null = null;
+  constructor(private errorsPath: string) {}
+
+  isPaused(): boolean { return this.paused; }
+  isAborted(): boolean { return this.aborted; }
+
+  async waitIfPaused(): Promise<void> {
+    if (this.aborted) {
+      throw new Error('Aborted by user during captcha pause');
+    }
+    if (!this.paused) {
+      return;
+    }
+    if (this.resumePromise) {
+      await this.resumePromise;
+    }
+    if (this.aborted) {
+      throw new Error('Aborted by user during captcha pause');
+    }
+  }
+
+  async trigger(reason: string, url?: string): Promise<void> {
+    if (this.paused || this.aborted) {
+      return; // debounce multiple signals
+    }
+    this.paused = true;
+    this.activeReason = reason;
+    this.activeUrl = url ?? null;
+    this.pauseStartedAt = Date.now();
+    this.resumePromise = new Promise<void>((resolve) => { this.resumeResolve = resolve; });
+    const ts = new Date().toISOString();
+    const detail = url ? ` (${url})` : '';
+    await fs.appendFile(this.errorsPath, `[${ts}] CAPTCHA_PAUSE: ${reason}${detail}\n`, 'utf8').catch(() => undefined);
+    // Prompt user
+    // eslint-disable-next-line no-console
+    console.warn('\nCaptcha/DataDome detected.');
+    console.warn('Please solve the challenge in the open browser window.');
+    console.warn('Press Enter to resume once solved, or type q then Enter to abort.');
+
+    const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+    rl.question('Awaiting input (Enter=resume, q=abort): ', async (answer) => {
+      const start = this.pauseStartedAt ?? Date.now();
+      const durationMs = Date.now() - start;
+      const tsEnd = new Date().toISOString();
+      if (answer.trim().toLowerCase() === 'q') {
+        this.aborted = true;
+        this.paused = false;
+        this.resumeResolve?.();
+        await fs.appendFile(this.errorsPath, `[${tsEnd}] CAPTCHA_PAUSE_END: ABORTED after ${durationMs}ms\n`, 'utf8').catch(() => undefined);
+      } else {
+        this.paused = false;
+        this.resumeResolve?.();
+        await fs.appendFile(this.errorsPath, `[${tsEnd}] CAPTCHA_PAUSE_END: RESUMED after ${durationMs}ms\n`, 'utf8').catch(() => undefined);
+      }
+      this.resumeResolve = null;
+      this.resumePromise = null;
+      this.pauseStartedAt = null;
+      this.activeReason = null;
+      this.activeUrl = null;
+      rl.close();
+    });
+  }
 }
 
 function parseFrenchNumber(text: string | null): number | null {
@@ -280,9 +357,10 @@ async function waitForFavoritesFrame(page: Page): Promise<Frame | null> {
   return null;
 }
 
-async function collectFavoriteLinks(context: BrowserContext, url: string, delayRange: DelayRange): Promise<string[]> {
+async function collectFavoriteLinks(context: BrowserContext, url: string, delayRange: DelayRange, pause: PauseController): Promise<string[]> {
   const page = await context.newPage();
   try {
+    await pause.waitIfPaused();
     await page.goto(url, { waitUntil: 'networkidle' });
     await page.waitForLoadState('networkidle');
     await page.waitForSelector('body', { timeout: 30_000 });
@@ -293,14 +371,14 @@ async function collectFavoriteLinks(context: BrowserContext, url: string, delayR
 
     const collected = new Set<string>();
     for (const scope of scopes) {
-      const links = await collectLinksInScope(scope, delayRange);
+      const links = await collectLinksInScope(scope, delayRange, pause);
       links.forEach((link) => collected.add(link));
     }
 
     if (collected.size === 0 && !favoritesFrame) {
       // as a fallback, attempt to inspect all child frames
       for (const frame of page.frames()) {
-        const links = await collectLinksInScope(frame, delayRange);
+        const links = await collectLinksInScope(frame, delayRange, pause);
         links.forEach((link) => collected.add(link));
       }
     }
@@ -311,7 +389,7 @@ async function collectFavoriteLinks(context: BrowserContext, url: string, delayR
   }
 }
 
-async function collectLinksInScope(scope: LocatorScope, delayRange: DelayRange): Promise<string[]> {
+async function collectLinksInScope(scope: LocatorScope, delayRange: DelayRange, pause: PauseController): Promise<string[]> {
   await scope.waitForSelector('a[href*="/annonces/"]', { timeout: 30_000 }).catch(() => undefined);
 
   const collected = new Set<string>();
@@ -320,6 +398,7 @@ async function collectLinksInScope(scope: LocatorScope, delayRange: DelayRange):
   const maxIdleIterations = 6;
 
   while (idleIterations < maxIdleIterations) {
+    await pause.waitIfPaused();
     const links = await gatherListingLinks(scope);
     for (const link of links) {
       collected.add(link.split('#')[0]);
@@ -488,7 +567,8 @@ async function extractLabelValue(page: Page, labels: RegExp[]): Promise<string |
   return cleanText(data);
 }
 
-async function extractListing(page: Page, url: string): Promise<ListingRecord> {
+async function extractListing(page: Page, url: string, pause: PauseController): Promise<ListingRecord> {
+  await pause.waitIfPaused();
   await page.goto(url, { waitUntil: 'networkidle' });
   await page.waitForSelector('main, #app', { timeout: 30_000 });
 
@@ -620,7 +700,7 @@ async function logError(errorsPath: string, message: string, error: unknown): Pr
   await fs.appendFile(errorsPath, fullMessage, 'utf8');
 }
 
-async function processListings(urls: string[], context: BrowserContext, delayRange: DelayRange, errorsPath: string): Promise<ListingRecord[]> {
+async function processListings(urls: string[], context: BrowserContext, delayRange: DelayRange, errorsPath: string, pause: PauseController): Promise<ListingRecord[]> {
   const tasks = urls.map((url) => ({ url }));
   const results: (ListingRecord | null)[] = new Array(tasks.length).fill(null);
   let index = 0;
@@ -635,8 +715,9 @@ async function processListings(urls: string[], context: BrowserContext, delayRan
       const targetUrl = tasks[currentIndex].url;
       const page = await context.newPage();
       try {
+        await pause.waitIfPaused();
         await sleep(randomDelay(delayRange));
-        const record = await extractListing(page, targetUrl);
+        const record = await extractListing(page, targetUrl, pause);
         results[currentIndex] = record;
       } catch (error) {
         await logError(errorsPath, `Failed to scrape ${targetUrl}`, error);
@@ -674,6 +755,13 @@ async function main(): Promise<void> {
     return;
   }
 
+  if (options.headed && process.platform === 'linux' && !process.env.DISPLAY) {
+    console.error('GUI display not detected (missing DISPLAY). To run headed, use a GUI-capable host or X server.');
+    console.error('Tip: run without --headed to continue in headless mode.');
+    process.exit(1);
+    return;
+  }
+
   const outPathResolved = options.outPath
     ? path.isAbsolute(options.outPath)
       ? options.outPath
@@ -681,7 +769,7 @@ async function main(): Promise<void> {
     : undefined;
 
   const browser = await chromium.launch({
-    headless: true,
+    headless: !options.headed,
     args: ['--disable-blink-features=AutomationControlled', '--disable-dev-shm-usage'],
   });
   let context: BrowserContext | null = null;
@@ -707,9 +795,29 @@ async function main(): Promise<void> {
 
     await fs.writeFile(errorsPath, '', 'utf8');
 
+    const pause = new PauseController(errorsPath);
+
+    // Captcha/DataDome detection via network responses
+    context.on('response', async (response) => {
+      try {
+        const status = response.status();
+        const url = response.url();
+        if (status === 403 && /seloger\.com/i.test(url)) {
+          await pause.trigger('HTTP 403 from Seloger endpoint', url);
+          return;
+        }
+        if (/captcha-delivery\.com|datadome/i.test(url)) {
+          await pause.trigger('Captcha/DataDome URL observed', url);
+          return;
+        }
+      } catch {
+        // ignore
+      }
+    });
+
     const uniqueListingLinks = new Set<string>();
     for (const favoritesUrl of options.urls) {
-      const links = await collectFavoriteLinks(context, favoritesUrl, options.delayRange);
+      const links = await collectFavoriteLinks(context, favoritesUrl, options.delayRange, pause);
       links.forEach((link) => uniqueListingLinks.add(link));
     }
 
@@ -717,7 +825,7 @@ async function main(): Promise<void> {
       console.warn('No listings found in the provided favorites URLs.');
     }
 
-    const listings = await processListings(Array.from(uniqueListingLinks), context, options.delayRange, errorsPath);
+    const listings = await processListings(Array.from(uniqueListingLinks), context, options.delayRange, errorsPath, pause);
     await writeOutputs(listings, localDir, outPathResolved);
 
     console.log(`Scraped ${listings.length} listing(s). JSON: ${path.relative(repoRoot, path.resolve(localDir, 'output.json'))}`);
