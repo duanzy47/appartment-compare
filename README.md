@@ -23,6 +23,14 @@ npx tsx login-once.ts
 - You have 60 seconds to authenticate manually
 - On success stores the session at `./local/state-seloger.json` and prints `STATE_SAVED: ./local/state-seloger.json`
 
+#### Optional: Manually validate authentication to avoid DataDome
+```bash
+npx tsx login-once.ts --validate-auth --favorites "https://www.seloger.com/mes-recherches/favoris"
+```
+- After signing in, press Enter in the terminal to navigate to your favorites.
+- If a captcha/DataDome challenge appears, solve it in the browser; once your favorites load, press Enter again to save the authenticated state.
+- This helps ensure the stored session already cleared DataDome before running the scraper.
+
 ### 2. Scrape favorite listings
 ```bash
 npx tsx scrape-favorites.ts "https://www.seloger.com/mes-recherches/favoris"
